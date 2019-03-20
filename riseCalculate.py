@@ -5,6 +5,7 @@
 import pymongo
 import time
 import pandas as pd
+import datetime
 
 client = pymongo.MongoClient(host='localhost', port=27017)
 db = client.ffgHarvester
@@ -20,7 +21,15 @@ def riseCalculate(ascending):
 	lastDayStr = lastCal['cal_date']  #第一个交易日的日期
 	firstDayCal = dayList[0]
 	firstDayStr = firstDayCal['cal_date'] #最后一个交易日的日期
-	stockList = list(stockListCol.find())
+	isOrNot = input("是否去除30个日内上市的新股？年\n1:yes\n2:no）")
+	now = datetime.datetime.now()
+	newStockDay = (now - datetime.timedelta(days = 30)).strftime('%Y%m%d')
+	print(newStockDay)
+	if(isOrNot == '1') :
+		stockList = list(stockListCol.find({"list_date":{"$lt":newStockDay}}))
+	else:
+		stockList = list(stockListCol.find())	
+	
 	stockDf = []
 	for stock in stockList:
 		stockDf.append(pd.Series(stock))
