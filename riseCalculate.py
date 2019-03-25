@@ -21,7 +21,7 @@ def riseCalculate(ascending):
 	lastDayStr = lastCal['cal_date']  #第一个交易日的日期
 	firstDayCal = dayList[0]
 	firstDayStr = firstDayCal['cal_date'] #最后一个交易日的日期
-	isOrNot = input("是否去除30个日内上市的新股？年\n1:yes\n2:no）")
+	isOrNot = input("是否去除30个日内上市的新股？年\n1:yes\n2:no")
 	now = datetime.datetime.now()
 	newStockDay = (now - datetime.timedelta(days = 30)).strftime('%Y%m%d')
 	print(newStockDay)
