@@ -1,11 +1,11 @@
 #coding:utf-8
 
-#连续涨幅统计
-#连续跌幅统计
 import getStockList
-
+import getStockDaily
 def main():
 	getStockList.main()
+	getStockDaily.main()
+
 if __name__ == '__main__':
 	main()
 

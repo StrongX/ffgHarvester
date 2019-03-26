@@ -12,7 +12,7 @@ pro = ts.pro_api()
 
 
 def main():
-	print('开始查询股票列表')
+	print('开始更新股票列表')
 	data = pro.query('stock_basic', exchange='', list_status='L', fields='ts_code,symbol,name,area,industry,fullname,enname,market,exchange,curr_type,list_status,list_date,delist_date,is_hs')
 	for index,row in data.iterrows():
 		obj = dict(row)
