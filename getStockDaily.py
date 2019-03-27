@@ -1,4 +1,16 @@
 #coding:utf-8
+
+"""
+符号含义示例
+$lt小于{'age': {'$lt': 20}}
+$gt大于{'age': {'$gt': 20}}
+$lte小于等于{'age': {'$lte': 20}}
+$gte大于等于{'age': {'$gte': 20}}
+$ne不等于{'age': {'$ne': 20}}
+$in在范围内{'age': {'$in': [20, 23]}}
+$nin不在范围内{'age': {'$nin': [20, 23]}}
+"""
+
 import tushare as ts
 import pymongo
 import time
