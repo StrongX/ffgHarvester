@@ -14,7 +14,7 @@ $nin不在范围内{'age': {'$nin': [20, 23]}}
 import tushare as ts
 import pymongo
 import time
-
+import sys
 client = pymongo.MongoClient(host='localhost', port=27017)
 db = client.ffgHarvester
 col = db.stockDaily
@@ -44,6 +44,9 @@ def main():
 						obj = dict(row)
 						list.append(obj)
 						# result = col.update({"ts_code":obj['ts_code'],"trade_date":obj['trade_date']},{"$set":obj},upsert=True)
+					if len(list) == 0:
+						print('当日股票日线未更新，请稍后再试')
+						sys.exit()
 					col.insert_many(list)
 					db.stockCalendar.update({"_id":cal_date,},{"$set":{"isGetDaily":True}}) #更新日历  标记为已获取
 					print('get daily data：'+cal_date)
