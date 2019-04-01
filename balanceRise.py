@@ -23,8 +23,6 @@ def analyzeBalanceRise():
 	dayList = list(stockCalendarCol.find({"is_open":1,'cal_date':{"$lte":todayStr}}).limit(seriesDays).sort('cal_date', pymongo.DESCENDING)) #倒推获取指定时间的交易日期
 	lastCal = dayList[len(dayList)-1]
 	lastDayStr = lastCal['cal_date']  #第一个交易日的日期
-	print(lastDayStr)
-	return
 	stocks = stockDailyCol.find({'trade_date':{'$lte':todayStr},'trade_date':{'$gte':lastDayStr}})
 	stocksDF = pd.DataFrame(stocks)
 	stockList = stockListCol.find()
