@@ -12,9 +12,9 @@ stockCalendarCol = db.stockCalendar
 stockListCol = db.stockList
 
 
-upOffset = 0.05
+upOffset = 0.10
 
-downOffset = 0
+downOffset = 0.02
 
 seriesDays = 60
 
@@ -29,6 +29,10 @@ def analyzeBalanceRise():
 	i = 1
 	for stock in stockList:
 		df = stocksDF[(stocksDF['ts_code'] == stock['ts_code'])]
+		if len(df) < seriesDays:
+			# print('股票代码：'+stock['ts_code']+'近期不足交易日期')
+			i+=1
+			continue
 		allow = True
 		for index,row in df.iterrows():
 			ma20 = row['ma20']
@@ -42,8 +46,8 @@ def analyzeBalanceRise():
 					allow = False
 					break
 		if allow:
-			print('沿20日匀线上升,股票代码：'+row['ts_code'])
-		print('分析第'+str(i)+'支股票')
+			print('沿20日匀线上升,股票代码：'+stock['ts_code'])
+		# print('分析第'+str(i)+'支股票')
 		i+=1
 
 def main():
