@@ -10,8 +10,6 @@ from bson.objectid import ObjectId
 client = pymongo.MongoClient(host='localhost', port=27017)
 db = client.ffgHarvester
 stockDailyCol = db.stockDaily
-allStocks = stockDailyCol.find()
-allStockDf = pd.DataFrame(allStocks)
 processCount = 7
 
 
@@ -21,16 +19,18 @@ def calculateWithDays(days):
 	stocksNumber = stocks.count()
 	rows = int(stocksNumber/processCount)
 	stocks = pd.DataFrame(stocks)
+	allStocks = stockDailyCol.find()
+	allStockDf = pd.DataFrame(allStocks)
 	for x in range(0,processCount):
 		if x == processCount-1:
 			stocksCut = stocks.iloc[x*rows:stocksNumber]
 		else:
 			stocksCut = stocks.iloc[x*rows:rows+x*rows]
-		p = multiprocessing.Process(target = calculateWithProcess, args = (days,stocksCut))
+		p = multiprocessing.Process(target = calculateWithProcess, args = (days,stocksCut,allStockDf))
 		p.start()
 	
 
-def calculateWithProcess(days,stocks):
+def calculateWithProcess(days,stocks,allStockDf):
 	key = 'ma'+str(days)
 	for index,daily in stocks.iterrows():	#2、循环每一个日线计算匀线
 		stockDf = allStockDf[(allStockDf['ts_code']==daily['ts_code']) & (allStockDf['trade_date']<=daily['trade_date'])].sort_values(by="trade_date",ascending=False).reset_index(drop=True).iloc[0:days]
