@@ -1,6 +1,6 @@
 #coding:utf-8
 #牛回头，前期涨幅很大，回落击穿20日匀线后向上突破20日匀线
-#筛选条件，第一天击穿20日匀线，然后连续两天收在20以上。30日累计6个涨停板以上
+#筛选条件，第一天击穿20日匀线，然后连续两天收在20以上。30日累计7个涨停板以上（当日涨幅大于9个点）
 import pymongo
 import pandas as pd
 import time
@@ -13,6 +13,8 @@ stockListCol = db.stockList
 
 
 seriesDays = 30
+highDays = 7
+
 
 def main():
 	todayStr = time.strftime("%Y%m%d", time.localtime())
@@ -28,6 +30,7 @@ def main():
 		lastestDF = df.loc[len(df)-3:len(df)].reset_index(drop=True)
 		for index,row in lastestDF.iterrows():
 			ma20 = row['ma20']
+			pct_chg = row['pct_chg']
 			if(index == 0):
 				low = row['low']
 				if(low<ma20):
@@ -35,12 +38,17 @@ def main():
 				else:
 					break
 			else:
+				if(pct_chg<0):
+					break
 				close = row['close']
 				if(close>ma20):
 					if(index == 1):
 						continue
 					else:
-						print(dict(row))
+						#筛选是否是牛股
+						highDf = df[df['pct_chg']>9.0]
+						if(len(highDf)>highDays):
+							print('股票代码'+row['ts_code']+'    '+str(seriesDays)+'日类累计'+str(len(highDf))+'个交易日涨幅超过9个点')
 				else:
 					break
 
