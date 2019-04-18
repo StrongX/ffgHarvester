@@ -12,8 +12,8 @@ stockListCol = db.stockList
 
 def main():
 	stockCalendarCol.update_many({'cal_date':{"$gt":'20190330'}},{"$set":{"isGetDaily":False}})#重置日历标记位
-	stockDailyCol.update_many({'trade_date':{"$gt":'20190330'}},{'$unset':{'ma20':''}},False) #删除计算错误的匀线
-
+	# stockDailyCol.update_many({'trade_date':{"$gt":'20190330'}},{'$unset':{'ma20':''}},False) #删除计算错误的匀线
+	stockDailyCol.delete_many({'trade_date':{"$gt":'20190330'}})
 
 if __name__ == '__main__':
 	main()

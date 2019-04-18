@@ -33,7 +33,7 @@ def main():
 				if(low<ma20):
 					pass
 				else:
-					continue
+					break
 			else:
 				close = row['close']
 				if(close>ma20):
@@ -42,7 +42,7 @@ def main():
 					else:
 						print(dict(row))
 				else:
-					continue
+					break
 
 
 if __name__ == '__main__':

@@ -38,7 +38,7 @@ def calculateWithProcess(days,stocks,allStockDf):
 		# if len(maStocks) < days:
 		# 	continue  #若数据库数据不够匀线统计则不做统计
 		value = stockDf['close'].mean()	#4、计算收盘价均价
-		stockDailyCol.update({"_id":ObjectId(daily['_id']),},{"$set":{key:value}}) 	#5、插入计算号的均价。  字段名，如：ma20
+		stockDailyCol.update_many({"_id":ObjectId(daily['_id']),},{"$set":{key:value}}) 	#5、插入计算号的均价。  字段名，如：ma20
 		print('股票代码：'+daily['ts_code']+'  交易日期：'+daily['trade_date']+'   '+str(days)+'日均价:'+str(value))
 
 def main():
