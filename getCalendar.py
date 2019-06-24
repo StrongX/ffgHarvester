@@ -8,7 +8,7 @@ ts.set_token('495bd6a4d40acef11e6a222a1632889b27c60938aa9decba468c472b')
 
 pro = ts.pro_api()
 
-df = pro.query('trade_cal', start_date='20180101', end_date='20201231')
+df = pro.query('trade_cal', start_date='20190501', end_date='20201231')
 
 for index,row in df.iterrows():
 	obj = dict(row)
